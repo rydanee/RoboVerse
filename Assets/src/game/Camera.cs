@@ -74,6 +74,9 @@ public class Camera : MonoBehaviour
 
         Vector3 currentPos = transform.position;
 
+        _targetPosition.x = Mathf.Clamp(_targetPosition.x, -15f, 15f);
+        _targetPosition.z = Mathf.Clamp(_targetPosition.z, -15f, 15f);
+
         float newX = Mathf.Lerp(currentPos.x, _targetPosition.x, Time.deltaTime * panSmoothness);
         float newZ = Mathf.Lerp(currentPos.z, _targetPosition.z, Time.deltaTime * panSmoothness);
         float newY = Mathf.Lerp(currentPos.y, _targetPosition.y, Time.deltaTime * zoomSmoothness);

@@ -1,33 +1,36 @@
 using UnityEngine;
 
-public static class ElectricityMath
+namespace phys
 {
-  public static bool checkR(float R)
+  public static class ElectricityMath
   {
-    if (R <= 0)
+    public static bool checkR(float R)
     {
-      Debug.Log("Короткое замыкание!");
-      return false;
+      if (R <= 0)
+      {
+        Debug.Log("Короткое замыкание!");
+        return false;
+      }
+
+      return true;
     }
 
-    return true;
-  }
+    public static float Calculate_I_By_Ohms_Law(float U, float R)
+    {
+      if (!checkR(R)) return -1f;
+      return U / R;
+    }
 
-  public static float Calculate_I_By_Ohms_Law(float U, float R)
-  {
-    if (!checkR(R)) return -1f;
-    return U / R;
-  }
+    public static float Calculate_U_By_Ohms_Law(float I, float R)
+    {
+      if (!checkR(R)) return -1f;
+      return I * R;
+    }
 
-  public static float Calculate_U_By_Ohms_Law(float I, float R)
-  {
-    if (!checkR(R)) return -1f;
-    return I * R;
-  }
-
-  public static float Calculate_R_By_Ohms_Law(float U, float I)
-  {
-    if (!checkR(R)) return -1f;
-    return U / I;
+    public static float Calculate_R_By_Ohms_Law(float U, float I)
+    {
+      if (!checkR(R)) return -1f;
+      return U / I;
+    }
   }
 }

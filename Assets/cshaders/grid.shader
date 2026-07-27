@@ -1,17 +1,22 @@
-Shader "Custom/InfiniteGrid"
+Shader "Custom/BlueprintGrid"
 {
     Properties
     {
-        _GridColor ("Grid Color", Color) = (0.5, 0.5, 0.5, 1)
-        _GridSpacing ("Grid Spacing", Float) = 1.0
-        _LineThickness ("Line Thickness", Range(0.01, 0.1)) = 0.02
+        _BaseColor ("Base Blueprint Blue", Color) = (0.05, 0.15, 0.3, 1)
+        _MainGridColor ("Main Grid Line Color", Color) = (0.2, 0.45, 0.7, 0.6)
+        _SubGridColor ("Sub Grid Line Color", Color) = (0.15, 0.3, 0.5, 0.3)
+        
+        _GridSpacing ("Grid Spacing (Main)", Float) = 5.0
+        _SubDivisions ("Subdivisions per Cell", Int) = 5
+        
+        _MainThickness ("Main Line Thickness", Range(0.01, 0.2)) = 0.04
+        _SubThickness ("Sub Line Thickness", Range(0.005, 0.1)) = 0.015
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" }
+        Tags { "Queue"="Geometry" "RenderType"="Opaque" }
         LOD 100
-        Blend SrcAlpha OneMinusSrcAlpha
-        ZWrite Off
+        ZWrite On
 
         Pass
         {
@@ -32,9 +37,13 @@ Shader "Custom/InfiniteGrid"
                 float4 vertex : SV_POSITION;
             };
 
-            float4 _GridColor;
+            float4 _BaseColor;
+            float4 _MainGridColor;
+            float4 _SubGridColor;
             float _GridSpacing;
-            float _LineThickness;
+            int _SubDivisions;
+            float _MainThickness;
+            float _SubThickness;
 
             v2f vert (appdata v)
             {
@@ -46,13 +55,19 @@ Shader "Custom/InfiniteGrid"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 grid = abs(frac(i.worldXZ / _GridSpacing - 0.5) - 0.5) / (_LineThickness);
-                float lineMask = min(grid.x, grid.y);
-                float alpha = 1.0 - min(lineMask, 1.0);
+                float2 mainGrid = abs(frac(i.worldXZ / _GridSpacing - 0.5) - 0.5) / _MainThickness;
+                float mainMask = 1.0 - min(min(mainGrid.x, mainGrid.y), 1.0);
 
-                if (alpha <= 0.0) discard;
+                float subSpacing = _GridSpacing / max(1, _SubDivisions);
+                float2 subGrid = abs(frac(i.worldXZ / subSpacing - 0.5) - 0.5) / _SubThickness;
+                float subMask = 1.0 - min(min(subGrid.x, subGrid.y), 1.0);
 
-                return fixed4(_GridColor.rgb, _GridColor.a * alpha);
+                float4 finalGridColor = lerp(_SubGridColor, _MainGridColor, mainMask);
+                float totalMask = max(mainMask, subMask);
+
+                float4 finalColor = lerp(_BaseColor, finalGridColor, totalMask * finalGridColor.a);
+
+                return finalColor;
             }
             ENDCG
         }
