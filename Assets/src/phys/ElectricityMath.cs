@@ -28,18 +28,18 @@ namespace phys
 
     //Current formulas
 
-    public static float Calculate_I(float U, float R)
+    public static float Calculate_I_from_UR(float U, float R)
     {
       if (!checkR(R)) return -1f;
       return U / R;
     }
 
-    public static float Calculate_I(float P, float U)
+    public static float Calculate_I_from_RU(float P, float U)
     {
       return P / U;
     }
 
-    public static float Calculate_I(float P, float R)
+    public static float Calculate_I_from_PR(float P, float R)
     {
       if (!checkR(R)) return -1f;
       return Mathf.Sqrt(P / R);
@@ -47,19 +47,19 @@ namespace phys
 
     //Voltage formulas
 
-    public static float Calculate_U(float I, float R)
+    public static float Calculate_U_from_IR(float I, float R)
     {
       if (!checkR(R)) return -1f;
       return I * R;
     }
 
-    public static float Calculate_U(float P, float I)
+    public static float Calculate_U_from_PI(float P, float I)
     {
       if (!checkI(I)) return -1f;
       return P / I;
     }
 
-    public static float Calculate_U(float P, float R)
+    public static float Calculate_U_from_PR(float P, float R)
     {
       if (!checkR(R)) return -1f;
       return Mathf.Sqrt(P * R);
@@ -67,18 +67,18 @@ namespace phys
 
     //Resistance formulas
 
-    public static float Calculate_R(float U, float I)
+    public static float Calculate_R_from_UI(float U, float I)
     {
       if (!checkI(I)) return -1f;
       return U / I;
     }
 
-    public static float Calculate_R(float U, float P)
+    public static float Calculate_R_from_UP(float U, float P)
     {
       return Mathf.Pow(U, 2) / P;
     }
 
-    public static float Calculate_R(float P, float I)
+    public static float Calculate_R_from_PI(float P, float I)
     {
       if (!checkI(I)) return -1f;
       return P / Mathf.Pow(I, 2);
@@ -86,18 +86,18 @@ namespace phys
 
     //Power formulas
 
-    public static float Calculate_P(float U, float I)
+    public static float Calculate_P_from_UI(float U, float I)
     {
       return U * I;
     }
 
-    public static float Calculate_P(float R, float I)
+    public static float Calculate_P_from_RI(float R, float I)
     {
       if (!checkR(R)) return -1f;
       return R * Mathf.Pow(I, 2);
     }
 
-    public static float Calculate_P(float U, float R)
+    public static float Calculate_P_from_UR(float U, float R)
     {
       if (!checkR(R)) return -1f;
       return Mathf.Pow(U, 2) / R;
