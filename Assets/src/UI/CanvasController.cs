@@ -5,7 +5,10 @@ using TMPro;
 public class CanvasController : MonoBehaviour
 {
   public static CanvasController Instance { get; private set; }
+  public string defaultButtonText { get; private set; }
+  public Camera camera { get; private set; }
 
+  [SerializeField] private Camera mainCamera;
   [SerializeField] private Canvas canvas;
   [SerializeField] private TextMeshProUGUI buttonText;
 
@@ -16,6 +19,7 @@ public class CanvasController : MonoBehaviour
     if (Instance == null)
     {
       Instance = this;
+      this.camera = mainCamera;
     }
     else
     {
@@ -32,6 +36,8 @@ public class CanvasController : MonoBehaviour
   {
     isEnabled = !isEnabled;
     canvas.enabled = isEnabled;
+
+    this.defaultButtonText = defaultButtonText;
 
     buttonText.text = isEnabled ? "Close" : defaultButtonText;
   }

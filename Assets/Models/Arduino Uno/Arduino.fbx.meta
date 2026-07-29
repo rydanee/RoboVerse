@@ -1,9 +1,24 @@
 fileFormatVersion: 2
-guid: 814bb1ba6604e1ef1bb3022f5a725857
+guid: a05622566f95770c8bc8ffb2040fbc25
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Back
+    second: {fileID: 2100000, guid: 607483a26e5d8d8feb4cf2e5bacaf454, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FiberGlass
+    second: {fileID: 2100000, guid: e3411b99b35991fa4ae4b3bf9850a596, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: e3411b99b35991fa4ae4b3bf9850a596, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
