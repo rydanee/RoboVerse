@@ -9,8 +9,9 @@ Shader "Custom/BlueprintGrid"
         _GridSpacing ("Grid Spacing (Main)", Float) = 5.0
         _SubDivisions ("Subdivisions per Cell", Int) = 5
         
-        _MainThickness ("Main Line Thickness", Range(0.01, 0.2)) = 0.04
-        _SubThickness ("Sub Line Thickness", Range(0.005, 0.1)) = 0.015
+        // Увеличенная толщина и расширенный диапазон ползунков
+        _MainThickness ("Main Line Thickness (px)", Range(0.5, 6.0)) = 1.8
+        _SubThickness ("Sub Line Thickness (px)", Range(0.5, 4.0)) = 1.1
     }
     SubShader
     {
@@ -55,13 +56,24 @@ Shader "Custom/BlueprintGrid"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 mainGrid = abs(frac(i.worldXZ / _GridSpacing - 0.5) - 0.5) / _MainThickness;
-                float mainMask = 1.0 - min(min(mainGrid.x, mainGrid.y), 1.0);
+                // Применяем базовое утолщение, даже если материал хранит старые малые значения
+                float mainThick = max(_MainThickness, 0.5) * 1.6;
+                float subThick = max(_SubThickness, 0.3) * 1.6;
 
+                // Главная сетка
+                float2 mainUV = i.worldXZ / _GridSpacing;
+                float2 mainDistPx = abs(frac(mainUV - 0.5) - 0.5) / fwidth(mainUV);
+                float mainLine = min(mainDistPx.x, mainDistPx.y);
+                float mainMask = 1.0 - smoothstep(mainThick - 0.5, mainThick + 0.5, mainLine);
+
+                // Второстепенная сетка
                 float subSpacing = _GridSpacing / max(1, _SubDivisions);
-                float2 subGrid = abs(frac(i.worldXZ / subSpacing - 0.5) - 0.5) / _SubThickness;
-                float subMask = 1.0 - min(min(subGrid.x, subGrid.y), 1.0);
+                float2 subUV = i.worldXZ / subSpacing;
+                float2 subDistPx = abs(frac(subUV - 0.5) - 0.5) / fwidth(subUV);
+                float subLine = min(subDistPx.x, subDistPx.y);
+                float subMask = 1.0 - smoothstep(subThick - 0.5, subThick + 0.5, subLine);
 
+                // Смешивание цветов
                 float4 finalGridColor = lerp(_SubGridColor, _MainGridColor, mainMask);
                 float totalMask = max(mainMask, subMask);
 
