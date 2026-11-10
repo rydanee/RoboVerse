@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Camera : MonoBehaviour
 {
@@ -82,5 +83,9 @@ public class Camera : MonoBehaviour
         float newY = Mathf.Lerp(currentPos.y, _targetPosition.y, Time.deltaTime * zoomSmoothness);
 
         transform.position = new Vector3(newX, newY, newZ);
+
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+
+        Debug.Log($"X: {mousePos.x} Y: {mousePos.y}");
     }
 }
