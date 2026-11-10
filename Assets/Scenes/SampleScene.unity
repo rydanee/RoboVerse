@@ -1257,8 +1257,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1886619588}
-        m_TargetAssemblyTypeName: SpawnArduinoUNOBoardButton, Assembly-CSharp
-        m_MethodName: spawnArduinoUNOBoard
+        m_TargetAssemblyTypeName: SpawnDetail, Assembly-CSharp
+        m_MethodName: spawnObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1267,7 +1267,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &1886619585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1329,8 +1329,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be9b20bd25858c35583ecad25188cdbf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnArduinoUNOBoardButton
-  arduinoUNOBoardObject: {fileID: 919132149155446097, guid: a05622566f95770c8bc8ffb2040fbc25, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnDetail
+  detailToSpawn: {fileID: 919132149155446097, guid: a05622566f95770c8bc8ffb2040fbc25, type: 3}
 --- !u!1 &1976976264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1530,7 +1530,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009152479}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
